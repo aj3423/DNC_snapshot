@@ -17,8 +17,15 @@ try:
     downloaded = False
     for attempt in range(3):
         try:
-            urllib.request.urlretrieve(URL, "dnc_daily.csv")
-            print(f"Downloaded successfully on attempt {attempt + 1}", file=sys.stderr)
+            req = urllib.request.Request(
+                URL,
+                headers={"User-Agent": "SpamBlocker"},
+            )
+            with urllib.request.urlopen(req) as response:
+                with open("dnc_daily.csv", "wb") as f:
+                    f.write(response.read())
+
+            print("Downloaded successfully", file=sys.stderr)
             downloaded = True
             break
         except Exception as e:

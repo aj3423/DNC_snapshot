@@ -76,7 +76,7 @@ try:
     print(f"Deleted {deleted} expired records.", file=sys.stderr)
 
     # Generate 90days.csv with only the number column
-    c.execute("SELECT number FROM number")
+    c.execute("SELECT number FROM numbers")
     rows = c.fetchall()
     with open("90days.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)

@@ -20,7 +20,7 @@ jobs:
 
       - name: Download and process CSV
         run: |
-          python3 ./process.py
+          python3 process.py
 
       - name: Commit and push updates
         run: |
@@ -34,9 +34,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            DATE=$(date +%Y-%m-%d)
-			DATE = "2025-09-26" # TODO: remove this 
-            git commit -m "Daily update ${DATE}
+            git commit -m "Daily update"
             
             git push
           fi

@@ -79,7 +79,7 @@ try:
     rows = c.fetchall()
     with open("90days.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["number"])  # Write header
+        writer.writerow(["pattern"])  # Write header
         for row in rows:
             writer.writerow([row[0]])
     print(f"Generated 90days.csv with {len(rows)} numbers.", file=sys.stderr)

@@ -4,7 +4,7 @@ on:
   schedule:
     # Runs daily at 18:00 EST (UTC-5). Adjust to '0 22 * * *' for EDT (UTC-4) if needed during daylight saving time.
     - cron: '0 23 * * *'
-  workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   update:

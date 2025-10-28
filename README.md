@@ -7,7 +7,7 @@ This repository aggregates spam numbers from the FTC-DNC Registry over the past 
   - Download daily numbers from url:
     https://www.ftc.gov/sites/default/files/DNC_Complaint_Numbers_YYYY-MM-DD.csv
   - Add them to **90days.db**
-  - Remove numbers older than 90 days 
+  - Remove numbers older than 90 days from the .db
   - Generate **90days.csv** from the .db
 - The **90days.csv** can be used in SpamBlocker
 

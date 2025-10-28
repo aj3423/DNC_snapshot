@@ -25,9 +25,6 @@ jobs:
           python3 process.py
 
       - name: Commit and push updates
-	    env:
-          GITHUB_TOKEN: ${{ secrets.SYNC_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
 
         run: |
           git config --local user.email "action@github.com"

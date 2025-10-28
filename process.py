@@ -8,7 +8,6 @@ import urllib.request
 try:
     # Get today's date in YYYY-MM-DD format
     DATE = datetime.now().strftime("%Y-%m-%d")
-    DATE = "2025-09-26"  # TODO: remove this
 
     # Construct URL
     URL = f"https://www.ftc.gov/sites/default/files/DNC_Complaint_Numbers_{DATE}.csv"

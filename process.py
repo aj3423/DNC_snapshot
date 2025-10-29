@@ -34,7 +34,11 @@ try:
 
     if not downloaded:
         print("Failed to download CSV after 3 attempts", file=sys.stderr)
-        sys.exit(1)
+        print(
+            f"Maybe due to weekend or holiday, the file isn't published: {URL}",
+            file=sys.stderr,
+        )
+        sys.exit(0)
 
     # Connect to SQLite database
     conn = sqlite3.connect("90days.db")

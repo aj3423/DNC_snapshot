@@ -38,7 +38,11 @@ try:
             f"Maybe due to weekend or holiday, the file isn't published: {URL}",
             file=sys.stderr,
         )
-        sys.exit(2)
+        print(
+            f"Check it on the website: https://www.ftc.gov/policy-notices/open-government/data-sets/do-not-call-data",
+            file=sys.stderr,
+        )
+        sys.exit(404)
 
     # Connect to SQLite database
     conn = sqlite3.connect("90days.db")

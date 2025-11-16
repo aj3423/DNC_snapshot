@@ -22,7 +22,7 @@ jobs:
 
       - name: Download and process CSV
         run: |
-          python3 process.py || (echo "failed with exit code $?" && exit 1)
+          python3 process.py || (echo "failed with exit code $?" && exit $?)
 
       - name: Commit and push updates
 

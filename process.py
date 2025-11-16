@@ -38,7 +38,7 @@ try:
             f"Maybe due to weekend or holiday, the file isn't published: {URL}",
             file=sys.stderr,
         )
-        sys.exit(0)
+        sys.exit(2)
 
     # Connect to SQLite database
     conn = sqlite3.connect("90days.db")

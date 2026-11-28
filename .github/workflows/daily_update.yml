@@ -1,0 +1,63 @@
+name: DNC daily update
+
+on:
+  schedule:
+    # Runs daily at 17:00 EST (UTC-5). 
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+
+permissions:
+  # Needed because this workflow force-pushes the refreshed snapshot to master.
+  contents: write
+
+concurrency:
+  # Avoid two scheduled/manual runs trying to rewrite master at the same time.
+  group: dnc-daily-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SYNC_TOKEN }}
+          persist-credentials: true  # Ensures credentials are available for git push
+          # Only the current files are needed; old database history is intentionally ignored.
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install requests 
+        run: |
+          pip install requests
+
+      - name: Download and process CSV
+        run: |
+          python3 process.py
+
+      - name: Replace master with latest snapshot
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Save the updated tracked files before switching to an orphan branch.
+          snapshot_dir="$(mktemp -d)"
+          git ls-files -z | tar --null -T - -cf - | tar -C "$snapshot_dir" -xf -
+
+          # The working tree now has updated .db/.csv files, so reset the checkout
+          # after saving them; otherwise Git refuses to switch to the orphan branch.
+          git reset --hard
+
+          # Create a history-free commit so large .db changes do not accumulate in Git.
+          git switch --orphan snapshot-${GITHUB_RUN_ID}
+          git rm -rf . || true
+          cp -a "$snapshot_dir"/. .
+
+          git add -A
+          git commit -m "Daily snapshot"
+          # Replace master with the single latest snapshot commit.
+          git push --force-with-lease origin HEAD:master
